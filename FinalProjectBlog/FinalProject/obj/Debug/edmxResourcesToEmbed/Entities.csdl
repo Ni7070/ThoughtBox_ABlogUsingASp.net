@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ThoughtBoxModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="myUser">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="125" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="125" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="125" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="age" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="confirmPassword" Type="String" Nullable="false" MaxLength="125" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Posts" Relationship="ThoughtBoxModel.FK__Post__userId__3C69FB99" FromRole="myUser" ToRole="Post" />
+  </EntityType>
+  <EntityContainer Name="ThoughtBoxEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="myUsers" EntityType="Self.myUser" />
+    <EntitySet Name="Posts" EntityType="ThoughtBoxModel.Post" />
+    <AssociationSet Name="FK__Post__userId__3C69FB99" Association="ThoughtBoxModel.FK__Post__userId__3C69FB99">
+      <End Role="myUser" EntitySet="myUsers" />
+      <End Role="Post" EntitySet="Posts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="postId" />
+    </Key>
+    <Property Name="postId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="125" FixedLength="false" Unicode="true" />
+    <Property Name="Category" Type="String" Nullable="false" MaxLength="125" FixedLength="false" Unicode="true" />
+    <Property Name="Post1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="225" FixedLength="false" Unicode="true" />
+    <Property Name="postedBy" Type="String" Nullable="false" MaxLength="125" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="myUser" Relationship="ThoughtBoxModel.FK__Post__userId__3C69FB99" FromRole="Post" ToRole="myUser" />
+  </EntityType>
+  <Association Name="FK__Post__userId__3C69FB99">
+    <End Type="ThoughtBoxModel.myUser" Role="myUser" Multiplicity="1" />
+    <End Type="ThoughtBoxModel.Post" Role="Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="myUser">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
